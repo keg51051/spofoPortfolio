@@ -1,2 +1,2 @@
-package spofo.portfolio.domain.trade.service;public class TradeService {
+package spofo.portfolio.domain.tradelog.service;public class TradeService {
 }

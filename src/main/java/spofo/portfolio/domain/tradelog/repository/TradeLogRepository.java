@@ -1,8 +1,8 @@
-package spofo.portfolio.domain.trade.repository;
+package spofo.portfolio.domain.tradelog.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import spofo.portfolio.domain.trade.entity.TradeLog;
+import spofo.portfolio.domain.tradelog.entity.TradeLog;
 
-public interface TradeRepository extends JpaRepository<TradeLog, Long> {
+public interface TradeLogRepository extends JpaRepository<TradeLog, Long> {
 
 }

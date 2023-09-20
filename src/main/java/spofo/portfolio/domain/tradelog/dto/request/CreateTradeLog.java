@@ -1,2 +1,14 @@
-package spofo.portfolio.domain.trade.dto.request;public class CreateTrade {
+package spofo.portfolio.domain.tradelog.dto.request;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class CreateTradeLog {
+
 }

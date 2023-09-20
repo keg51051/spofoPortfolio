@@ -1,2 +1,2 @@
-package spofo.portfolio.domain.trade.controller;public class TradeController {
+package spofo.portfolio.domain.tradelog.controller;public class TradeController {
 }
