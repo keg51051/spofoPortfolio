@@ -14,13 +14,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "stock")
-public class Stock {
+@Table(name = "stock_close")
+public class StockClose {
 
     @Id
+    private LocalDateTime createdAt;
     private String stockCode;
-
-    private String stockName;
-    private String imageUrl;
-    private String stockMarket;
+    private int closePrice;
 }
