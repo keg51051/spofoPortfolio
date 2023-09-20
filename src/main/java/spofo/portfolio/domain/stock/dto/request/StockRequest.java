@@ -1,3 +1,5 @@
 package spofo.portfolio.domain.stock.dto.request;
-public class StockPortfolio {
+
+public class StockRequest {
+
 }
