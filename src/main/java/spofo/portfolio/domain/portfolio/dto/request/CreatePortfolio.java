@@ -13,6 +13,7 @@ import spofo.portfolio.domain.portfolio.entity.Portfolio;
 @AllArgsConstructor
 @Builder
 public class CreatePortfolio {
+
     private int id;
     private int member_id;
     private String name;
@@ -22,16 +23,16 @@ public class CreatePortfolio {
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
 
-    public Portfolio toEntity(){
+    public Portfolio toEntity() {
         return Portfolio.builder()
-                .id(id)
-                .member_id(member_id)
-                .name(name)
-                .description(description)
-                .currency(currency)
-                .include_yn(include_yn)
-                .createdAt(createdAt)
-                .modifiedAt(modifiedAt)
-                .build();
+            .id(id)
+            .member_id(member_id)
+            .name(name)
+            .description(description)
+            .currency(currency)
+            .include_yn(include_yn)
+            .createdAt(createdAt)
+            .modifiedAt(modifiedAt)
+            .build();
     }
 }

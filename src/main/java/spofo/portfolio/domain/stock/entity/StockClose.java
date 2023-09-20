@@ -17,8 +17,8 @@ import lombok.NoArgsConstructor;
 @Table(name = "stock_close")
 public class StockClose {
 
-  @Id
-  private LocalDateTime createdAt;
-  private String stockCode;
-  private int closePrice;
+    @Id
+    private LocalDateTime createdAt;
+    private String stockCode;
+    private int closePrice;
 }

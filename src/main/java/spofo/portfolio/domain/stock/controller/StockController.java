@@ -11,12 +11,13 @@ import spofo.portfolio.domain.stock.service.StockService;
 
 @RestController
 public class StockController {
-  @Autowired
-  StockService stockService;
 
-  @GetMapping("/")
-  public List<StockDto> getStocks() {
-    return stockService.getAllStocks();
-  }
+    @Autowired
+    StockService stockService;
+
+    @GetMapping("/")
+    public List<StockDto> getStocks() {
+        return stockService.getAllStocks();
+    }
 
 }

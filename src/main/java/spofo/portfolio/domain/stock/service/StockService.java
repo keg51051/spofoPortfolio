@@ -10,15 +10,16 @@ import spofo.portfolio.domain.stock.repository.StockRepository;
 
 @Service
 public class StockService {
-  @Autowired
-  StockRepository stockRepository;
 
-  public List<StockDto> getAllStocks() {
-    List<Stock> stocks = stockRepository.findAll();
-    List<StockDto> result = stocks.stream()
-        .map(StockDto::new)
-        .collect(Collectors.toList());
-    return result;
-  }
+    @Autowired
+    StockRepository stockRepository;
+
+    public List<StockDto> getAllStocks() {
+        List<Stock> stocks = stockRepository.findAll();
+        List<StockDto> result = stocks.stream()
+            .map(StockDto::new)
+            .collect(Collectors.toList());
+        return result;
+    }
 
 }

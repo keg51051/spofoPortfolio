@@ -17,12 +17,12 @@ import lombok.NoArgsConstructor;
 @Table(name = "stock_have")
 public class StockHave {
 
-  @Id
-  @GeneratedValue
-  private int id;
+    @Id
+    @GeneratedValue
+    private int id;
 
-  private int portfolioId;
-  private LocalDateTime createdAt;
-  private LocalDateTime modifiedAt;
-  private String stockCode;
+    private int portfolioId;
+    private LocalDateTime createdAt;
+    private LocalDateTime modifiedAt;
+    private String stockCode;
 }
