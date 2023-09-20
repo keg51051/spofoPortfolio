@@ -15,9 +15,9 @@ import lombok.NoArgsConstructor;
 @Builder
 public class Portfolio {
     @Id
-    private int id;
+    private Long id;
 
-    private int member_id;
+    private Long member_id;
 
     private String name;
 
@@ -26,6 +26,8 @@ public class Portfolio {
     private String currency;
 
     private String include_yn;
+
+    private String type;
 
     private LocalDateTime createdAt;
 
