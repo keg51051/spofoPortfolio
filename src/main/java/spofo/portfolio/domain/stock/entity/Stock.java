@@ -17,10 +17,10 @@ import lombok.NoArgsConstructor;
 @Table(name = "stock")
 public class Stock {
 
-  @Id
-  private String stockCode;
+    @Id
+    private String stockCode;
 
-  private String stockName;
-  private String imageUrl;
-  private String stockMarket;
+    private String stockName;
+    private String imageUrl;
+    private String stockMarket;
 }

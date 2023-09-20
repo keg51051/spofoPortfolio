@@ -5,7 +5,8 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class PortfolioException extends RuntimeException{
+public class PortfolioException extends RuntimeException {
+
     private ErrorCode errorCode;
     private String message;
 
@@ -16,10 +17,9 @@ public class PortfolioException extends RuntimeException{
 
     @Override
     public String getMessage() {
-        if(message == null) {
+        if (message == null) {
             return errorCode.getMessage();
-        }
-        else {
+        } else {
             return String.format("%s %s", errorCode.getMessage(), message);
         }
     }
