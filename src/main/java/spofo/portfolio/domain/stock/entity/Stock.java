@@ -16,6 +16,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "stock_have")
 public class Stock {
+
   @Id
   @GeneratedValue
   private BigInteger id;
