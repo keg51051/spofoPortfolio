@@ -31,17 +31,17 @@ public class TradeLog {
     @Enumerated(EnumType.STRING)
     private TradeType type;
 
-    @Column(columnDefinition = "DECIMAL(18,2) DEFAULT 0", nullable = false)
+    @Column(precision = 18, scale = 2, nullable = false)
     private BigDecimal price;
 
     // TODO : 어노테이션 더 필요
     @Column(updatable = false, nullable = false)
     private LocalDateTime tradeDate;
 
-    @Column(columnDefinition = "DECIMAL(30,15) DEFAULT 0", nullable = false)
+    @Column(precision = 30, scale = 15, nullable = false)
     private BigDecimal quantity;
 
-    @Column(columnDefinition = "DECIMAL(18,2) DEFAULT 0", nullable = false)
+    @Column(precision = 18, scale = 2, nullable = false)
     private BigDecimal marketPrice;
 
     // TODO : 어노테이션 더 필요
