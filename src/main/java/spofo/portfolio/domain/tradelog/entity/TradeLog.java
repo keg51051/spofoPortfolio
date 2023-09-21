@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 import spofo.portfolio.domain.tradelog.enums.TradeType;
 
 @Entity
@@ -25,7 +26,7 @@ public class TradeLog {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // TODO : 보유 종목 번호
+    private Long stockId; // 보유 종목 번호 (FK)
 
     @Column(columnDefinition = "VARCHAR(1) DEFAULT 'B'", nullable = false)
     @Enumerated(EnumType.STRING)
@@ -34,7 +35,6 @@ public class TradeLog {
     @Column(columnDefinition = "DECIMAL(18,2) DEFAULT 0", nullable = false)
     private BigDecimal price;
 
-    // TODO : 어노테이션 더 필요
     @Column(updatable = false, nullable = false)
     private LocalDateTime tradeDate;
 
@@ -44,7 +44,7 @@ public class TradeLog {
     @Column(columnDefinition = "DECIMAL(18,2) DEFAULT 0", nullable = false)
     private BigDecimal marketPrice;
 
-    // TODO : 어노테이션 더 필요
     @Column(updatable = false, nullable = false)
+    @CreationTimestamp
     private LocalDateTime createdAt;
 }
