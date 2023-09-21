@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import spofo.global.entity.Date;
 
 @Getter
 @NoArgsConstructor
@@ -14,7 +15,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "stock")
 @Builder
-public class Stock {
+public class Stock extends Date {
 
     @Id
     private String stockCode;
