@@ -25,14 +25,14 @@ public class CreatePortfolio {
 
     public Portfolio toEntity() {
         return Portfolio.builder()
-            .id(id)
-            .member_id(member_id)
-            .name(name)
-            .description(description)
-            .currency(currency)
-            .include_yn(include_yn)
-            .createdAt(createdAt)
-            .modifiedAt(modifiedAt)
-            .build();
+                .id(id)
+                .member_id(member_id)
+                .name(name)
+                .description(description)
+                .currency(currency)
+                .include_yn(include_yn)
+                .createdAt(createdAt)
+                .modifiedAt(modifiedAt)
+                .build();
     }
 }
