@@ -4,6 +4,7 @@ import org.jetbrains.annotations.NotNull;
 import spofo.portfolio.domain.stock.entity.Stock;
 
 public class StockResponse {
+
     private final String stockCode;
     private final String stockName;
     private final String imageUrl;

@@ -11,8 +11,11 @@ import spofo.portfolio.domain.stock.repository.StockRepository;
 @Service
 public class StockService {
 
-    @Autowired
-    StockRepository stockRepository;
+    private final StockRepository stockRepository;
+
+    public StockService(StockRepository stockRepository) {
+        this.stockRepository = stockRepository;
+    }
 
     public List<StockResponse> getAllStocks() {
         return stockRepository.findAll()
