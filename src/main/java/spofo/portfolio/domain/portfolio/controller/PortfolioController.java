@@ -1,7 +1,11 @@
+package spofo.portfolio.domain.portfolio.controller;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import spofo.portfolio.domain.portfolio.dto.request.CreatePortfolioRequest;
 import spofo.portfolio.domain.portfolio.service.PortfolioService;
 
 @RestController
@@ -23,7 +27,7 @@ public class PortfolioController {
     }
 
     @PostMapping("/portfolios")
-    public String PortfoliosPost(CreatePortfolio createDto){
+    public String PortfoliosPost(CreatePortfolioRequest createDto){
         return ""; // Todo : 포트폴리오 추가
     }
 
