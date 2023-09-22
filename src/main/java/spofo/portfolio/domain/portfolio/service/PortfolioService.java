@@ -15,14 +15,14 @@ public class PortfolioService {
 
     public String getStock() {
         return restClient.get()
-                .uri("stock.spofo.net/1")
+                .uri("https://www.stock.spofo.net/1")
                 .retrieve()
                 .body(String.class);
     }
 
     public String getAuth() {
         return restClient.get()
-                .uri("auth.spofo.net")
+                .uri("https://www.auth.spofo.net")
                 .retrieve()
                 .body(String.class);
     }
