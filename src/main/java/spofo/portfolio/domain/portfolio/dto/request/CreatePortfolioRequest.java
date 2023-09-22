@@ -1,6 +1,5 @@
 package spofo.portfolio.domain.portfolio.dto.request;
 
-import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,27 +11,25 @@ import spofo.portfolio.domain.portfolio.entity.Portfolio;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CreatePortfolio {
+public class CreatePortfolioRequest {
 
-    private int id;
-    private int member_id;
+    private Long id;
+    private Long memberId;
     private String name;
     private String description;
     private String currency;
-    private String include_yn;
-    private LocalDateTime createdAt;
-    private LocalDateTime modifiedAt;
+    private String includeYn;
+    private String type;
 
     public Portfolio toEntity() {
         return Portfolio.builder()
                 .id(id)
-                .member_id(member_id)
+                .memberId(memberId)
                 .name(name)
                 .description(description)
                 .currency(currency)
-                .include_yn(include_yn)
-                .createdAt(createdAt)
-                .modifiedAt(modifiedAt)
+                .includeYn(includeYn)
+                .type(type)
                 .build();
     }
 }

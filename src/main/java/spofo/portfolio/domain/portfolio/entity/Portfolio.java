@@ -2,23 +2,22 @@ package spofo.portfolio.domain.portfolio.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import java.time.LocalDateTime;
-import lombok.AllArgsConstructor;
+import jakarta.persistence.Table;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
+@Table(name = "portfolio")
 @Getter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Portfolio {
 
     @Id
-    private int id;
+    private Long id;
 
-    private int member_id;
+    private Long memberId;
 
     private String name;
 
@@ -26,9 +25,19 @@ public class Portfolio {
 
     private String currency;
 
-    private String include_yn;
+    private String includeYn;
 
-    private LocalDateTime createdAt;
+    private String type;
 
-    private LocalDateTime modifiedAt;
+    @Builder
+    public Portfolio(Long id, Long memberId, String name, String description, String currency,
+            String includeYn, String type) {
+        this.id = id;
+        this.memberId = memberId;
+        this.name = name;
+        this.description = description;
+        this.currency = currency;
+        this.includeYn = includeYn;
+        this.type = type;
+    }
 }

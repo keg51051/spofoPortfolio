@@ -1,5 +1,3 @@
-package spofo.portfolio.domain.portfolio.controller;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -13,6 +11,20 @@ public class PortfolioController {
 
     public PortfolioController(PortfolioService portfolioService) {
         this.portfolioService = portfolioService;
+    }
+
+    @GetMapping("/portfolios/total")
+    public String PorfoliosTotal(){
+        return ""; // Todo : 전체 포트폴리오 자산 조회
+    }
+    @GetMapping("/portfolios")
+    public String PortfoliosGet(){
+        return ""; // Todo : 포트폴리오 목록 조회
+    }
+
+    @PostMapping("/portfolios")
+    public String PortfoliosPost(CreatePortfolio createDto){
+        return ""; // Todo : 포트폴리오 추가
     }
 
     @GetMapping("/test")
