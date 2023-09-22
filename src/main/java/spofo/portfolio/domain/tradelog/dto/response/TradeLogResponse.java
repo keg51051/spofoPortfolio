@@ -23,10 +23,15 @@ public class TradeLogResponse {
     private BigDecimal profit; // 실현 수익
     private BigDecimal totalPrice; // 금액
 
-    public static TradeLogResponse from(TradeLog tradeLog, BigDecimal profit,
-            BigDecimal totalPrice) {
-        return TradeLogResponse.builder().id(tradeLog.getId()).tradeDate(tradeLog.getTradeDate())
-                .type(tradeLog.getType()).price(tradeLog.getPrice())
-                .quantity(tradeLog.getQuantity()).profit(profit).totalPrice(totalPrice).build();
+    public static TradeLogResponse from(TradeLog tradeLog, BigDecimal profit, BigDecimal totalPrice) {
+        return TradeLogResponse.builder()
+                .id(tradeLog.getId())
+                .tradeDate(tradeLog.getTradeDate())
+                .type(tradeLog.getType())
+                .price(tradeLog.getPrice())
+                .quantity(tradeLog.getQuantity())
+                .profit(profit)
+                .totalPrice(totalPrice)
+                .build();
     }
 }
