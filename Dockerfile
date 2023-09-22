@@ -1,4 +1,4 @@
-FROM ubuntu:latest
-LABEL authors="jang-wonjun"
+FROM openjdk:17-alpine
 
-ENTRYPOINT ["top", "-b"]
+COPY ./build/libs/portfolio-0.0.1-SNAPSHOT.jar /usr/src/myapp/
+CMD java -jar /usr/src/myapp/portfolio-0.0.1-SNAPSHOT.jar
