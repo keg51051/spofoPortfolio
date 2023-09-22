@@ -1,18 +1,22 @@
 package spofo.portfolio.domain.portfolio.entity;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import spofo.global.entity.Date;
+import spofo.portfolio.domain.portfolio.enums.IncludeType;
+import spofo.portfolio.domain.portfolio.enums.PortfolioType;
 
 @Entity
 @Table(name = "portfolio")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Portfolio {
+public class Portfolio extends Date {
 
     @Id
     private Long id;
@@ -25,12 +29,9 @@ public class Portfolio {
 
     private String currency;
 
-    @Builder
-    public Portfolio(Long id, Long memberId, String name, String description, String currency) {
-        this.id = id;
-        this.memberId = memberId;
-        this.name = name;
-        this.description = description;
-        this.currency = currency;
-    }
+    @Enumerated(EnumType.STRING)
+    private IncludeType includeYn;
+
+    @Enumerated(EnumType.STRING)
+    private PortfolioType type;
 }
