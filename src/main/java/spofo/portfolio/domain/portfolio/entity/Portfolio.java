@@ -25,19 +25,12 @@ public class Portfolio {
 
     private String currency;
 
-    private String includeYn;
-
-    private String type;
-
     @Builder
-    public Portfolio(Long id, Long memberId, String name, String description, String currency,
-            String includeYn, String type) {
+    public Portfolio(Long id, Long memberId, String name, String description, String currency) {
         this.id = id;
         this.memberId = memberId;
         this.name = name;
         this.description = description;
         this.currency = currency;
-        this.includeYn = includeYn;
-        this.type = type;
     }
 }

@@ -1,5 +1,6 @@
 package spofo.portfolio.domain.portfolio.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -9,25 +10,25 @@ import spofo.portfolio.domain.portfolio.dto.request.CreatePortfolioRequest;
 import spofo.portfolio.domain.portfolio.service.PortfolioService;
 
 @RestController
+@RequiredArgsConstructor
 public class PortfolioController {
 
     private final PortfolioService portfolioService;
 
-    public PortfolioController(PortfolioService portfolioService) {
-        this.portfolioService = portfolioService;
+    @GetMapping("/portfolios/total")
+    public void porfoliosTotal() {
+        // void -> List<TotalPortfolioResponse> 변경할 예정 (로직 완성이 안되서 void로 해놓음)
+        Long memberId = Long.parseLong(portfolioService.getMemberId());
+        // return portfolioService.getTotalPortfolio(memberId);
     }
 
-    @GetMapping("/portfolios/total")
-    public String PorfoliosTotal(){
-        return ""; // Todo : 전체 포트폴리오 자산 조회
-    }
     @GetMapping("/portfolios")
-    public String PortfoliosGet(){
+    public String PortfoliosGet() {
         return ""; // Todo : 포트폴리오 목록 조회
     }
 
     @PostMapping("/portfolios")
-    public String PortfoliosPost(CreatePortfolioRequest createDto){
+    public String PortfoliosPost(CreatePortfolioRequest createDto) {
         return ""; // Todo : 포트폴리오 추가
     }
 
