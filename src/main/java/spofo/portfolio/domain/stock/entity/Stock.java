@@ -1,25 +1,24 @@
 package spofo.portfolio.domain.stock.entity;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import java.math.BigInteger;
-import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import spofo.global.entity.Date;
 
-@Data
-@AllArgsConstructor
+@Getter
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "stock")
-public class Stock {
+@Builder
+public class Stock extends Date {
 
     @Id
     private String stockCode;
-
     private String stockName;
     private String imageUrl;
     private String stockMarket;
