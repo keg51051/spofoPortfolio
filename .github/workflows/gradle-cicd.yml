@@ -103,7 +103,7 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: jangwonjun/spofo:latest # 변경해야 할 값
+          tags: e58c/spofo:latest # 변경해야 할 값
 
   deploy:
     runs-on: ubuntu-latest
