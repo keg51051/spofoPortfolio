@@ -10,7 +10,7 @@ import spofo.global.exception.PortfolioException;
 import spofo.portfolio.domain.portfolio.dto.response.PortfolioResponse;
 import spofo.portfolio.domain.portfolio.entity.Portfolio;
 import spofo.portfolio.domain.portfolio.repository.PortfolioRepository;
-import spofo.portfolio.domain.stock.service.StockService;
+import spofo.portfolio.domain.stock.service.StockHaveService;
 
 @Service
 @RequiredArgsConstructor
@@ -18,7 +18,7 @@ public class PortfolioService {
 
     private final PortfolioRepository portfolioRepository;
     private final RestClient restClient;
-    private final StockService stockService;
+    private final StockHaveService stockHaveService;
 
     public String getStock() {
         return restClient.get()
