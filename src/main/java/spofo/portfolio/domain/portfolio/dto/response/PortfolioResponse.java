@@ -21,11 +21,12 @@ public class PortfolioResponse {
     private BigDecimal gain; // 평가 손익
     private BigDecimal gainRate; // 수익률
 
-    public static PortfolioResponse from(Portfolio portfolio, BigDecimal totalAsset, BigDecimal totalBuy, BigDecimal gain, BigDecimal gainRate) {
+    public static PortfolioResponse from(Portfolio portfolio, BigDecimal totalAsset,
+            BigDecimal totalBuy, BigDecimal gain, BigDecimal gainRate) {
         return PortfolioResponse.builder()
                 .id(portfolio.getId())
                 .name(portfolio.getName())
-                .detail(portfolio.getDescription())
+                .detail(portfolio.getDetail())
                 .totalAsset(totalAsset)
                 .totalBuy(totalBuy)
                 .gain(gain)
