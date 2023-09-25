@@ -6,6 +6,8 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import spofo.global.entity.Date;
@@ -16,6 +18,8 @@ import spofo.portfolio.domain.portfolio.enums.PortfolioType;
 @Table(name = "portfolio")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Builder
+@AllArgsConstructor
 public class Portfolio extends Date {
 
     @Id
@@ -25,7 +29,7 @@ public class Portfolio extends Date {
 
     private String name;
 
-    private String description;
+    private String detail;
 
     private String currency;
 
@@ -34,4 +38,6 @@ public class Portfolio extends Date {
 
     @Enumerated(EnumType.STRING)
     private PortfolioType type;
+
+
 }
