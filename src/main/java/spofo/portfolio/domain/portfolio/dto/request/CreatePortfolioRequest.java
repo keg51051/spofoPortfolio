@@ -2,34 +2,31 @@ package spofo.portfolio.domain.portfolio.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import spofo.portfolio.domain.portfolio.entity.Portfolio;
+import spofo.portfolio.domain.portfolio.enums.PortfolioType;
 
 
-@Data
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class CreatePortfolioRequest {
 
-    private Long id;
-    private Long memberId;
     private String name;
-    private String description;
+    private String detail;
     private String currency;
-    private String includeYn;
-    private String type;
+    private PortfolioType type;
 
     public Portfolio toEntity() {
         return Portfolio.builder()
-                .id(id)
-                .memberId(memberId)
                 .name(name)
-                .description(description)
+                .detail(detail)
                 .currency(currency)
-                .includeYn(includeYn)
                 .type(type)
                 .build();
     }
+
+
 }
