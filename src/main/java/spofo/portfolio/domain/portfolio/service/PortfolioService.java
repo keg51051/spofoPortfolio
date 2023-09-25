@@ -1,11 +1,16 @@
 package spofo.portfolio.domain.portfolio.service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
+import spofo.global.exception.ErrorCode;
+import spofo.global.exception.PortfolioException;
+import spofo.portfolio.domain.portfolio.dto.response.PortfolioResponse;
 import spofo.portfolio.domain.portfolio.entity.Portfolio;
 import spofo.portfolio.domain.portfolio.repository.PortfolioRepository;
+import spofo.portfolio.domain.stock.service.StockHaveService;
 
 @Service
 @RequiredArgsConstructor
@@ -13,6 +18,7 @@ public class PortfolioService {
 
     private final PortfolioRepository portfolioRepository;
     private final RestClient restClient;
+    private final StockHaveService stockHaveService;
 
     public String getStock() {
         return restClient.get()
@@ -41,30 +47,54 @@ public class PortfolioService {
         List<Portfolio> portfolios = portfolioRepository.findByMemberId(memberId);
     }
 
-    /* 총 자산 계산
-    private BigDecimal getTotal() {
+    public PortfolioResponse getPortfolio(Long portfolioId) {
+        Portfolio portfolio = findById(portfolioId);
 
+        BigDecimal totalAsset = getTotalAsset();
+        BigDecimal totalBuy = getTotalBuy();
+        BigDecimal gain = getGain(totalAsset, totalBuy);
+        BigDecimal gainRate = getGainRate(totalAsset, totalBuy);
+        return PortfolioResponse.from(portfolio, totalAsset, totalBuy, gain, gainRate);
     }
 
-    // 평가 손익 계산
-    private BigDecimal getTotalReturn() {
-
+    private Portfolio findById(Long id) {
+        return portfolioRepository.findById(id)
+                .orElseThrow(() ->
+                        new PortfolioException(ErrorCode.PORTFOLIO_NOT_FOUND));
     }
 
-    // 총 매수 금액 계산
+    /** TODO : 총 자산 계산
+     * 각 종목 현재가 * 수량
+     * **/
+    private BigDecimal getTotalAsset() {
+        return BigDecimal.ZERO;
+    }
+
+    /** TODO : 총 매수 금액 계산
+     * 각 종목의 구매가 * 수량
+     * **/
     private BigDecimal getTotalBuy() {
-
+        return BigDecimal.ZERO;
     }
 
-    // 수익률 계산
-    private BigDecimal getReturnPercent() {
-
+    /** 평가 손익 계산
+     * 총 자산 - 총 매수 금액
+     * **/
+    private BigDecimal getGain(BigDecimal totalAsset, BigDecimal totalBuy) {
+        return totalAsset.subtract(totalBuy);
     }
 
-    // 일간 수익률 계산
+    /** 수익률 계산
+     * ((총 자산/총 매수 금액)*100)-100
+     * **/
+    private BigDecimal getGainRate(BigDecimal totalAsset, BigDecimal totalBuy) {
+        return totalAsset.divide(totalBuy).multiply(BigDecimal.valueOf(100)).subtract(
+                BigDecimal.valueOf(100));
+    }
+
+
+    /** TODO : 일간 수익률 계산
     private BigDecimal getReturnPerDay() {
 
-    }
-    */
-
+    }**/
 }
