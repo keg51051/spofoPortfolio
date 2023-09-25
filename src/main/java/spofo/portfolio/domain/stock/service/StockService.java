@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestClient;
 import spofo.portfolio.domain.stock.dto.response.StockResponse;
 import spofo.portfolio.domain.stock.repository.StockRepository;
 
