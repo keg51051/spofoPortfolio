@@ -14,14 +14,14 @@ import spofo.portfolio.domain.portfolio.dto.response.PortfolioResponse;
 import spofo.portfolio.domain.portfolio.dto.response.TotalPortfolioResponse;
 import spofo.portfolio.domain.portfolio.entity.Portfolio;
 import spofo.portfolio.domain.portfolio.repository.PortfolioRepository;
-import spofo.portfolio.domain.stock.service.StockHaveService;
+import spofo.portfolio.domain.stock.entity.StockHave;
 
 @Service
 public class PortfolioService {
 
     private PortfolioRepository portfolioRepository;
     private RestClient restClient;
-    private StockService stockService;
+    private StockHave stockHave;
 
     public String getStock() {
         return restClient.get()
