@@ -5,13 +5,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class StockRepositoryTest {
+class StockHaveRepositoryTest {
 
   @Autowired
-  StockRepository stockRepository;
+  StockHaveRepository stockHaveRepository;
 
   @Test
   void showAll() {
-    stockRepository.findAll().forEach(System.out::println);
+    stockHaveRepository.findAll().forEach(System.out::println);
   }
 }
