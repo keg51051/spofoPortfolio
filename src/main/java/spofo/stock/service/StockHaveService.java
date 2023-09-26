@@ -5,9 +5,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import spofo.stock.dto.response.StockHaveResponse;
-import spofo.stock.entity.StockHave;
 import spofo.stock.repository.StockHaveRepository;
-import spofo.tradelog.entity.TradeLog;
 import spofo.tradelog.repository.TradeLogRepository;
 import spofo.tradelog.service.TradeLogService;
 
@@ -17,18 +15,19 @@ public class StockHaveService {
 
     private final StockHaveRepository stockHaveRepository;
     private final TradeLogRepository tradeLogRepository;
-    private TradeLogService tradeLogService;
+    private final TradeLogService tradeLogService;
 
     public List<StockHaveResponse> getStocks(Long portfolioId) {
-        List<StockHave> stocks = stockHaveRepository.findByPortfolioId(portfolioId);
-        return stocks
+        return stockHaveRepository
+                .findByPortfolioId(portfolioId)
                 .stream()
-                .map(stock -> StockHaveResponse.from(stock, getStockName(), getSector(),
-                        getStockAsset(), getGain(), getGainRate(),
-                        getAvgPrice(), getCurrentPrice(), getQuantity(stock.getId()), getImageUrl()))
+                .map(stock -> StockHaveResponse
+                        .from(stock, getStockName(), getSector(),
+                                getStockAsset(), getGain(), getGainRate(),
+                                getAvgPrice(), getCurrentPrice(),
+                                getQuantity(stock.getId()), getImageUrl()))
                 .toList();
     }
-
 
     // TODO : 종목명 불러오기
     // From Stock
@@ -63,7 +62,6 @@ public class StockHaveService {
     // TODO : 보유 종목의 평균 단가(매수가)
     // From TradeLog
     private BigDecimal getAvgPrice() {
-
         return null;
     }
 
@@ -76,15 +74,16 @@ public class StockHaveService {
     // TODO : 보유 종목의 수량
     // From TradeLog
     private BigDecimal getQuantity(Long stockId) {
-        BigDecimal total = new BigDecimal(0);
-        List<TradeLog> tradeLogs = tradeLogRepository.findByStockId(stockId);
-        tradeLogs.forEach(tradeLog -> total.add(tradeLog.getQuantity()));
+        BigDecimal total = BigDecimal.ZERO;
+        tradeLogRepository.findByStockId(stockId)
+                .forEach(tradeLog -> total.add(tradeLog.getQuantity()));
         return total;
     }
 
     // TODO : 아이콘 이미지 URL
     // From Stock
     private String getImageUrl() {
+        return "";
     }
 
 

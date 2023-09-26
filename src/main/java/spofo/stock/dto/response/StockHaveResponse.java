@@ -19,24 +19,16 @@ public class StockHaveResponse {
     private BigDecimal gainRate;
     private BigDecimal avgPrice;
     private BigDecimal currentPrice;
-    private int quantity;
+    private BigDecimal quantity;
     private String imageUrl;
 
-    public static StockHaveResponse from(
-            @NotNull StockHave sh,
-            String stockName,
-            String sector,
-            BigDecimal totalAsset,
-            BigDecimal gain,
-            BigDecimal gainRate,
-            BigDecimal avgPrice,
-            BigDecimal currentPrice,
-            BigDecimal quantity,
-            String imageUrl) {
+    public static StockHaveResponse from(@NotNull StockHave sh, String stockName, String sector,
+            BigDecimal totalAsset, BigDecimal gain, BigDecimal gainRate, BigDecimal avgPrice,
+            BigDecimal currentPrice, BigDecimal quantity, String imageUrl) {
         return StockHaveResponse.builder()
                 .id(sh.getId())
                 .stockCode(sh.getStockCode())
-                .portfolioId(sh.getPortfolioId())
+                .portfolioId(sh.getPortfolio().getId())
                 .stockName(stockName)
                 .sector(sector)
                 .totalAsset(totalAsset)
@@ -45,7 +37,6 @@ public class StockHaveResponse {
                 .avgPrice(avgPrice)
                 .currentPrice(currentPrice)
                 .quantity(quantity)
-                .imageUrl(imageUrl)
-                .build();
+                .imageUrl(imageUrl).build();
     }
 }

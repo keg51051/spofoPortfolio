@@ -19,12 +19,10 @@ public class StockController {
 
     @GetMapping("/portfolios/{portfolioId}/stocks")
     @ResponseStatus(HttpStatus.OK)
-    public List<StockHaveResponse> getStocks(
-            @RequestParam String keyword,
-            @RequestParam String order,
-            @PathVariable String portfolioId) {
+    public List<StockHaveResponse> getStocks(@RequestParam String keyword,
+            @RequestParam String order, @PathVariable("portfolioId") Long portfolioId) {
         // TODO : 전체 보유 종목 조회
-        return stockHaveService.getStocks(Long.valueOf(portfolioId));
+        return stockHaveService.getStocks(portfolioId);
     }
 
 }
