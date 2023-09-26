@@ -1,6 +1,7 @@
 package spofo.stock.entity;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
@@ -20,6 +21,6 @@ public class StockHave extends Date {
     @GeneratedValue
     private Long id;
     private String stockCode; // 종목 코드 (FK)
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY) // Fecth 타입 Lazy 설정, Default: Eager
     private Portfolio portfolio; // 포트폴리오 아이디 (FK)
 }
