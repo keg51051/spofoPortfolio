@@ -8,6 +8,6 @@ import spofo.tradelog.entity.TradeLog;
 
 public interface TradeLogRepository extends JpaRepository<TradeLog, Long> {
 
-    @Query("select t from TradeLog t where t.stockId = :stockId")
+    @Query("select t from TradeLog t where t.stockHave.id = :stockId")
     List<TradeLog> findByStockId(@Param("stockId") Long stockId);
 }
