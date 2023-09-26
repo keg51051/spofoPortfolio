@@ -10,8 +10,4 @@ class StockHaveRepositoryTest {
     @Autowired
     StockHaveRepository stockHaveRepository;
 
-    @Test
-    void showAll() {
-        stockHaveRepository.findAll().forEach(System.out::println);
-    }
 }

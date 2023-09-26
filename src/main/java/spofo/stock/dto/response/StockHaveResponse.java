@@ -1,10 +1,16 @@
 package spofo.stock.dto.response;
 
 import java.math.BigDecimal;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import spofo.stock.entity.StockHave;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class StockHaveResponse {
 
