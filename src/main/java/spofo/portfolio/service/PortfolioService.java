@@ -27,7 +27,6 @@ public class PortfolioService {
     private final RestClient restClient = RestClient.builder().build();
     //private final StockHave stockHave;
 
-
     public String getStock() {
         return restClient.get()
                 .uri("https://www.stock.spofo.net/1")
