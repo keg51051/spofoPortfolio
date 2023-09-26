@@ -20,7 +20,6 @@ public class StockHave extends Date {
 
     @Id
     @GeneratedValue
-    @JoinColumn(name = "id")
     private Long id;
     private String stockCode; // 종목 코드 (FK)
     @JoinColumn(name = "portfolio_id")
