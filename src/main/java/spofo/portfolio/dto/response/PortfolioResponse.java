@@ -1,13 +1,15 @@
 package spofo.portfolio.dto.response;
 
+import com.fasterxml.jackson.core.JsonToken;
 import java.math.BigDecimal;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
 import spofo.portfolio.entity.Portfolio;
 import spofo.portfolio.enums.PortfolioType;
 
 @Data
-@Builder
 public class PortfolioResponse {
 
     private Long id;
@@ -22,14 +24,24 @@ public class PortfolioResponse {
     public static PortfolioResponse from(Portfolio portfolio, BigDecimal totalAsset,
             BigDecimal totalBuy, BigDecimal gain, BigDecimal gainRate) {
         return PortfolioResponse.builder()
-                .id(portfolio.getId())
-                .name(portfolio.getName())
-                .detail(portfolio.getDescription())
+                .portfolio(portfolio)
                 .totalAsset(totalAsset)
                 .totalBuy(totalBuy)
                 .gain(gain)
                 .gainRate(gainRate)
-                .portfolioType(portfolio.getType())
                 .build();
+    }
+
+    @Builder
+    private PortfolioResponse(Portfolio portfolio, BigDecimal totalAsset,
+            BigDecimal totalBuy, BigDecimal gain, BigDecimal gainRate) {
+        this.id = portfolio.getId();
+        this.name = portfolio.getName();
+        this.detail = portfolio.getDescription();
+        this.portfolioType = portfolio.getType();
+        this.totalAsset = totalAsset;
+        this.totalBuy = totalBuy;
+        this.gain = gain;
+        this.gainRate = gainRate;
     }
 }
