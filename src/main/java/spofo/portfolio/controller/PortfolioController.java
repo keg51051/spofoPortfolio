@@ -63,6 +63,7 @@ public class PortfolioController {
 
     @GetMapping("/portfolios/{portfolioId}/total")
     public ResponseEntity<PortfolioResponse> getPortfolio(@PathVariable(name = "portfolioId") Long portfolioId) {
-        return ok().body(portfolioService.getPortfolio(portfolioId));
+        PortfolioResponse portfolioResponse = portfolioService.getPortfolio(portfolioId);
+        return ok().body(portfolioResponse);
     }
 }
