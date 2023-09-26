@@ -1,27 +1,31 @@
 package spofo.portfolio.service;
 
+import static java.util.stream.Collectors.toList;
+
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Objects;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
+import spofo.global.exception.ErrorCode;
+import spofo.global.exception.PortfolioException;
 import spofo.portfolio.dto.request.CreatePortfolioRequest;
 import spofo.portfolio.dto.response.CreatePortfolioResponse;
-import spofo.portfolio.dto.response.ListPortfolioResponse;
 import spofo.portfolio.dto.response.PortfolioResponse;
+import spofo.portfolio.dto.response.PortfolioSimpleResponse;
 import spofo.portfolio.dto.response.TotalPortfolioResponse;
 import spofo.portfolio.entity.Portfolio;
 import spofo.portfolio.repository.PortfolioRepository;
-import spofo.stock.entity.StockHave;
-import spofo.global.exception.ErrorCode;
-import spofo.global.exception.PortfolioException;
 
 @Service
+@RequiredArgsConstructor
 public class PortfolioService {
 
-    private PortfolioRepository portfolioRepository;
+    private final PortfolioRepository portfolioRepository;
     private final RestClient restClient = RestClient.builder().build();
-//    private StockHave stockHave;
+    //private final StockHave stockHave;
 
     public String getStock() {
         return restClient.get()
@@ -37,22 +41,21 @@ public class PortfolioService {
                 .body(String.class);
     }
 
-    public String getMemberId() {
-        return restClient.get()
+    public Long getMemberId() {
+        return Long.valueOf(Objects.requireNonNull(restClient.get()
                 .uri("https://www.auth.spofo.net:8080/auth/members/search")
                 .retrieve()
-                .body(String.class);
+                .body(String.class)));
     }
 
     // 전체 포트폴리오 자산 조회 api-001
     public TotalPortfolioResponse getTotalPortfolio(Long memberId) {
         List<Portfolio> portfolios = portfolioRepository.findByMemberId(memberId);
-
-        BigDecimal allTotalAsset = getAllTotalAsset();
-        BigDecimal allGain = getAllGain();
-        BigDecimal allGainRate = getAllGainRate(getAllTotalAsset(), getAllBuy());
-        BigDecimal allDailyGainRate = getAllDailyGainRate();
-        return TotalPortfolioResponse.from(allTotalAsset, allGain, allGainRate, allDailyGainRate);
+        BigDecimal totalAsset = getAllTotalAsset();
+        BigDecimal gain = getAllGain();
+        BigDecimal gainRate = getAllGainRate(getAllTotalAsset(), getAllBuy());
+        BigDecimal dailyGainRate = getAllDailyGainRate();
+        return TotalPortfolioResponse.from(totalAsset, gain, gainRate, dailyGainRate);
     }
 
     // todo: 전체 포폴 총 자산 계산 [목록 조회 총 자산의 합]
@@ -71,33 +74,32 @@ public class PortfolioService {
     }
 
     // todo: 전체 포폴 수익률 [((총자산/총매수금액)*100)-100]
-    private BigDecimal getAllGainRate(BigDecimal allTotalAsset, BigDecimal allBuy) {
-        return allTotalAsset.divide(allBuy).multiply(BigDecimal.valueOf(100)).subtract(
-                BigDecimal.valueOf(100));
+    private BigDecimal getAllGainRate(BigDecimal totalAsset, BigDecimal allBuy) {
+        return totalAsset.divide(allBuy, 2, RoundingMode.HALF_UP)
+                .multiply(BigDecimal.valueOf(100)).subtract(
+                        BigDecimal.valueOf(100));
     }
 
-    // todo: 전체 포폴 일간 수익률 [미정]
+    // todo: 전체 포폴 일간 수익률(전날 대비 일간 수익률) [((오늘 총자산 - 어제 총자산)*100)-100]
     private BigDecimal getAllDailyGainRate() {
         return BigDecimal.ZERO;
     }
 
     // 포트폴리오 목록 조회 api-002
-    public List<ListPortfolioResponse> getListPortfolio(Long memberId) {
+    public List<PortfolioSimpleResponse> getListPortfolio(Long memberId) {
         return portfolioRepository.findByMemberId(memberId).stream()
-                .map(portfolio -> {
-                    return ListPortfolioResponse.from(portfolio,
-                            getGain(getTotalAsset(), getTotalBuy()),
-                            getGainRate(getTotalAsset(), getTotalBuy()));
-                })
-                .collect(Collectors.toList());
+                .map(portfolio -> PortfolioSimpleResponse.from(portfolio,
+                        getGain(getTotalAsset(), getTotalBuy()),
+                        getGainRate(getTotalAsset(), getTotalBuy()))
+                )
+                .collect(toList());
     }
 
     // 포트폴리오 생성 api-005
     public CreatePortfolioResponse createPortfolio(CreatePortfolioRequest createPortfolioRequest) {
         Portfolio portfolio = createPortfolioRequest.toEntity();
         portfolioRepository.save(portfolio);
-        return new CreatePortfolioResponse(
-                portfolio.getId());
+        return CreatePortfolioResponse.from(portfolio);
     }
 
 
@@ -144,8 +146,9 @@ public class PortfolioService {
      * 수익률 계산 ((총 자산/총 매수 금액)*100)-100
      **/
     private BigDecimal getGainRate(BigDecimal totalAsset, BigDecimal totalBuy) {
-        return totalAsset.divide(totalBuy).multiply(BigDecimal.valueOf(100)).subtract(
-                BigDecimal.valueOf(100));
+        return totalAsset.divide(totalBuy, 2, RoundingMode.HALF_UP)
+                .multiply(BigDecimal.valueOf(100)).subtract(
+                        BigDecimal.valueOf(100));
     }
 
     /**
