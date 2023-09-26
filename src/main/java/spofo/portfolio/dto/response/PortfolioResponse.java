@@ -1,15 +1,11 @@
 package spofo.portfolio.dto.response;
 
 import java.math.BigDecimal;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import spofo.portfolio.entity.Portfolio;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 @Builder
 public class PortfolioResponse {
 
@@ -26,7 +22,7 @@ public class PortfolioResponse {
         return PortfolioResponse.builder()
                 .id(portfolio.getId())
                 .name(portfolio.getName())
-                .detail(portfolio.getDetail())
+                .detail(portfolio.getDescription())
                 .totalAsset(totalAsset)
                 .totalBuy(totalBuy)
                 .gain(gain)

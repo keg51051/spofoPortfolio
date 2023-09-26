@@ -16,9 +16,9 @@ public class TradeLogController {
 
     // 종목 이력 조회
     @GetMapping("/portfolios/{portfolioId}/stocks/{stockId}/trade-log")
-    public List<TradeLogResponse> viewTradeLogs(@PathVariable String stockId,
-            @PathVariable String portfolioId) {
-        return tradeLogService.getTradeLogs(Long.valueOf(stockId));
+    public List<TradeLogResponse> viewTradeLogs(@PathVariable Long stockId,
+            @PathVariable Long portfolioId) {
+        return tradeLogService.getTradeLogs(stockId);
     }
 
 }

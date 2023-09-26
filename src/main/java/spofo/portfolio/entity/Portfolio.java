@@ -29,7 +29,7 @@ public class Portfolio extends Date {
 
     private String name;
 
-    private String detail;
+    private String description;
 
     private String currency;
 

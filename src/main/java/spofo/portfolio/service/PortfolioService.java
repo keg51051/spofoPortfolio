@@ -20,8 +20,8 @@ import spofo.global.exception.PortfolioException;
 public class PortfolioService {
 
     private PortfolioRepository portfolioRepository;
-    private RestClient restClient;
-    private StockHave stockHave;
+    private final RestClient restClient = RestClient.builder().build();
+//    private StockHave stockHave;
 
     public String getStock() {
         return restClient.get()

@@ -22,7 +22,7 @@ public class CreatePortfolioRequest {
     public Portfolio toEntity() {
         return Portfolio.builder()
                 .name(name)
-                .detail(detail)
+                .description(detail)
                 .currency(currency)
                 .type(type)
                 .build();
