@@ -5,16 +5,16 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import spofo.portfolio.enums.PortfolioType;
 import spofo.portfolio.entity.Portfolio;
 import spofo.portfolio.enums.IncludeType;
+import spofo.portfolio.enums.PortfolioType;
 
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ListPortfolioResponse {
+public class PortfolioSimpleResponse {
 
     private Long id;
     private String name;
@@ -23,9 +23,9 @@ public class ListPortfolioResponse {
     private BigDecimal gain;
     private BigDecimal gainRate;
 
-    public static ListPortfolioResponse from(Portfolio portfolio, BigDecimal gain,
+    public static PortfolioSimpleResponse from(Portfolio portfolio, BigDecimal gain,
             BigDecimal gainRate) {
-        return ListPortfolioResponse.builder()
+        return PortfolioSimpleResponse.builder()
                 .id(portfolio.getId())
                 .name(portfolio.getName())
                 .type(portfolio.getType())
