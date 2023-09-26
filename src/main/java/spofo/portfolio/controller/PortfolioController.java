@@ -4,18 +4,17 @@ import static org.springframework.http.ResponseEntity.ok;
 
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import spofo.portfolio.dto.request.CreatePortfolioRequest;
 import spofo.portfolio.dto.response.CreatePortfolioResponse;
-import spofo.portfolio.dto.response.ListPortfolioResponse;
 import spofo.portfolio.dto.response.PortfolioResponse;
+import spofo.portfolio.dto.response.PortfolioSimpleResponse;
 import spofo.portfolio.dto.response.TotalPortfolioResponse;
 import spofo.portfolio.service.PortfolioService;
 
@@ -26,40 +25,26 @@ public class PortfolioController {
     private final PortfolioService portfolioService;
 
     @GetMapping("/portfolios/total")
-    public TotalPortfolioResponse getTotalPortfolio() {
-        return portfolioService.getTotalPortfolio(Long.valueOf(portfolioService.getMemberId()));
+    public ResponseEntity<TotalPortfolioResponse> getTotalPortfolio() {
+        TotalPortfolioResponse totalPortfolioResponse = portfolioService.getTotalPortfolio(
+                portfolioService.getMemberId());
+        return ok(totalPortfolioResponse);
     }
 
     @GetMapping("/portfolios")
-    public List<ListPortfolioResponse> getListPortfolio() {
-        return portfolioService.getListPortfolio(Long.valueOf(portfolioService.getMemberId()));
+    public ResponseEntity<List<PortfolioSimpleResponse>> getListPortfolio() {
+        List<PortfolioSimpleResponse> portfolioSimpleResponse = portfolioService.getListPortfolio(
+                portfolioService.getMemberId());
+        return ok(portfolioSimpleResponse);
     }
 
     @PostMapping("/portfolios")
-    @ResponseStatus(HttpStatus.OK)
-    public CreatePortfolioResponse createPortfolio(
-            @RequestBody CreatePortfolioRequest createPortfolioRequest) {
-        return portfolioService.createPortfolio(createPortfolioRequest);
+    public ResponseEntity<CreatePortfolioResponse> createPortfolio(
+            @RequestBody @Validated CreatePortfolioRequest createPortfolioRequest) {
+        CreatePortfolioResponse createPortfolioResponse = portfolioService.createPortfolio(
+                createPortfolioRequest);
+        return ok(createPortfolioResponse);
     }
-
-    @GetMapping("/test")
-    @ResponseStatus(HttpStatus.OK)
-    String getStatus() {
-        return "포트폴리오 서버입니다.";
-    }
-
-    @GetMapping("/test/callStock")
-    @ResponseStatus(HttpStatus.OK)
-    String getStock() {
-        return portfolioService.getStock();
-    }
-
-    @GetMapping("/test/callAuth")
-    @ResponseStatus(HttpStatus.OK)
-    String getAuth() {
-        return portfolioService.getAuth();
-    }
-
 
     @GetMapping("/portfolios/{portfolioId}/total")
     public ResponseEntity<PortfolioResponse> getPortfolio(@PathVariable(name = "portfolioId") Long portfolioId) {
