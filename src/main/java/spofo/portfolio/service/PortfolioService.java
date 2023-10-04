@@ -11,8 +11,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 import spofo.global.exception.ErrorCode;
 import spofo.global.exception.PortfolioException;
-import spofo.portfolio.dto.request.CreatePortfolioRequest;
 import spofo.portfolio.dto.response.CreatePortfolioResponse;
+import spofo.portfolio.dto.response.OnePortfolioResponse;
 import spofo.portfolio.dto.response.PortfolioResponse;
 import spofo.portfolio.dto.response.PortfolioSimpleResponse;
 import spofo.portfolio.dto.response.TotalPortfolioResponse;
@@ -26,20 +26,6 @@ public class PortfolioService {
     private final PortfolioRepository portfolioRepository;
     private final RestClient restClient = RestClient.builder().build();
     //private final StockHave stockHave;
-
-    public String getStock() {
-        return restClient.get()
-                .uri("https://www.stock.spofo.net/1")
-                .retrieve()
-                .body(String.class);
-    }
-
-    public String getAuth() {
-        return restClient.get()
-                .uri("https://www.auth.spofo.net")
-                .retrieve()
-                .body(String.class);
-    }
 
     public Long getMemberId() {
         return Long.valueOf(Objects.requireNonNull(restClient.get()
@@ -96,10 +82,24 @@ public class PortfolioService {
     }
 
     // 포트폴리오 생성 api-005
-    public CreatePortfolioResponse createPortfolio(CreatePortfolioRequest createPortfolioRequest) {
-        Portfolio portfolio = createPortfolioRequest.toEntity();
-        portfolioRepository.save(portfolio);
+    public CreatePortfolioResponse createPortfolio(Portfolio createPortfolioRequest) {
+        Portfolio portfolio = portfolioRepository.save(
+                Portfolio.builder()
+                        .memberId(getMemberId())
+                        .type(createPortfolioRequest.getType())
+                        .name(createPortfolioRequest.getName())
+                        .description(createPortfolioRequest.getDescription())
+                        .currency(createPortfolioRequest.getCurrency())
+                        .build()
+        );
         return CreatePortfolioResponse.from(portfolio);
+    }
+
+    //포트폴리오 단건 조회 api-013
+    public OnePortfolioResponse getOnePortfolio(Long portfolioId) {
+        Portfolio portfolio = findById(portfolioId);
+
+        return OnePortfolioResponse.from(portfolio);
     }
 
 
@@ -146,9 +146,10 @@ public class PortfolioService {
      * 수익률 계산 ((총 자산/총 매수 금액)*100)-100
      **/
     private BigDecimal getGainRate(BigDecimal totalAsset, BigDecimal totalBuy) {
-        return totalAsset.divide(totalBuy, 2, RoundingMode.HALF_UP)
+        /*return totalAsset.divide(totalBuy, 2, RoundingMode.HALF_UP)
                 .multiply(BigDecimal.valueOf(100)).subtract(
-                        BigDecimal.valueOf(100));
+                        BigDecimal.valueOf(100));*/
+        return BigDecimal.ZERO;
     }
 
     /**
