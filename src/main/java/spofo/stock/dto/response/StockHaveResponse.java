@@ -2,9 +2,11 @@ package spofo.stock.dto.response;
 
 import java.math.BigDecimal;
 import lombok.Builder;
+import lombok.Data;
 import org.jetbrains.annotations.NotNull;
 import spofo.stock.entity.StockHave;
 
+@Data
 @Builder
 public class StockHaveResponse {
 
