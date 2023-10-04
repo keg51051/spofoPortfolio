@@ -17,7 +17,7 @@ import spofo.portfolio.enums.IncludeType;
 import spofo.portfolio.enums.PortfolioType;
 
 @Entity
-@Table(name = "portfolio")
+@Table(name = "Portfolio")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
