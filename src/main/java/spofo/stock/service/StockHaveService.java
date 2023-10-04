@@ -4,11 +4,15 @@ import java.math.BigDecimal;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import spofo.portfolio.entity.Portfolio;
+import spofo.portfolio.repository.PortfolioRepository;
+import spofo.stock.dto.request.AddStockRequest;
+import spofo.stock.dto.response.AddStockResponse;
 import spofo.stock.dto.response.StockHaveResponse;
+import spofo.stock.entity.StockHave;
 import spofo.stock.repository.StockHaveRepository;
 import spofo.tradelog.entity.TradeLog;
 import spofo.tradelog.repository.TradeLogRepository;
-import spofo.tradelog.service.TradeLogService;
 
 @Service
 @RequiredArgsConstructor
@@ -16,8 +20,10 @@ public class StockHaveService {
 
     private final StockHaveRepository stockHaveRepository;
     private final TradeLogRepository tradeLogRepository;
-    private final TradeLogService tradeLogService;
+    private final PortfolioRepository portfolioRepository;
 
+    // API - 008
+    // 모든 보유 종목 불러오기
     public List<StockHaveResponse> getStocks(Long portfolioId) {
         return stockHaveRepository
                 .findByPortfolioId(portfolioId)
@@ -29,6 +35,18 @@ public class StockHaveService {
                                 getQuantity(stock.getId()), getImageUrl()))
                 .toList();
     }
+
+    // API - 009
+    // 종목 추가하기
+    public AddStockResponse addStock(AddStockRequest addStockRequest, Long portfolioId) {
+        Portfolio portfolio = portfolioRepository.getReferenceById(portfolioId);
+        StockHave stockHave = addStockRequest.toEntity(portfolio);
+        stockHaveRepository.save(stockHave);
+
+        return AddStockResponse.from(stockHave);
+    }
+
+    // Stock & CurrentPrice 관련 코드는 RestClient로 변경 해야함
 
     // TODO : 종목명 불러오기
     // From Stock
