@@ -75,8 +75,8 @@ public class StockHaveService {
     // From TradeLog
     private BigDecimal getQuantity(Long stockId) {
         BigDecimal total = BigDecimal.ZERO;
-        tradeLogRepository.findByStockId(stockId)
-                .forEach(tradeLog -> total.add(tradeLog.getQuantity()));
+//        tradeLogRepository.findByStockId(stockId)
+//                .forEach(tradeLog -> total.add(tradeLog.getQuantity()));
         return total;
     }
 
