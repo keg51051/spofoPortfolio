@@ -49,8 +49,7 @@ class TradeLogServiceTest {
         StockHave mockStockHave = getMockStockHave(mockPortfolio);
         TradeLog mockTradeLog = getMockTradeLog(mockStockHave);
 
-        List<TradeLog> mockTradeLogList = new ArrayList<>();
-        mockTradeLogList.add(mockTradeLog);
+        List<TradeLog> mockTradeLogList = List.of(mockTradeLog);
 
         given(stockHaveRepository.getReferenceById(STOCK_ID)).willReturn(mockStockHave);
         given(tradeLogRepository.findByStockHave(mockStockHave)).willReturn(mockTradeLogList);
