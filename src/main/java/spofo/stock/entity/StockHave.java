@@ -7,7 +7,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import java.math.BigDecimal;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -31,8 +30,4 @@ public class StockHave extends Date {
     @JoinColumn(name = "portfolio_id")
     @ManyToOne(fetch = FetchType.LAZY) // Fecth 타입 Lazy 설정, Default: Eager
     private Portfolio portfolio;
-
-    private String tradeDate;
-    private BigDecimal quantity;
-    private BigDecimal avgPrice;
 }
