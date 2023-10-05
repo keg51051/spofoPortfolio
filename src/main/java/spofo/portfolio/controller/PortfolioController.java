@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import spofo.portfolio.dto.request.CreatePortfolioRequest;
 import spofo.portfolio.dto.request.UpdatePortfolioRequest;
 import spofo.portfolio.dto.response.CreatePortfolioResponse;
+import spofo.portfolio.dto.response.OnePortfolioResponse;
 import spofo.portfolio.dto.response.PortfolioResponse;
 import spofo.portfolio.dto.response.PortfolioSimpleResponse;
 import spofo.portfolio.dto.response.TotalPortfolioResponse;
@@ -45,8 +46,15 @@ public class PortfolioController {
     public ResponseEntity<CreatePortfolioResponse> createPortfolio(
             @RequestBody @Validated CreatePortfolioRequest createPortfolioRequest) {
         CreatePortfolioResponse createPortfolioResponse = portfolioService.createPortfolio(
-                createPortfolioRequest);
+                createPortfolioRequest.toEntity());
         return ok(createPortfolioResponse);
+    }
+
+    @GetMapping("/portolios/{portfolioId}")
+    public ResponseEntity<OnePortfolioResponse> getOnePortfolio(
+            @PathVariable(name = "portfolioId") Long portfolioId) {
+        OnePortfolioResponse onePortfolioResponse = portfolioService.getOnePortfolio(portfolioId);
+        return ok(onePortfolioResponse);
     }
 
     @GetMapping("/portfolios/{portfolioId}/total")
