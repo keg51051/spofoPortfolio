@@ -56,14 +56,13 @@ public class TradeLog {
     private LocalDateTime createdAt;
 
     @Builder
-    public TradeLog(Long id, StockHave stockHave, TradeType tradeType, BigDecimal price, LocalDateTime tradeDate, BigDecimal quantity, BigDecimal marketPrice, LocalDateTime createdAt) {
-        this.id = id;
+    public TradeLog(StockHave stockHave, TradeType tradeType, BigDecimal price,
+            LocalDateTime tradeDate, BigDecimal quantity, BigDecimal marketPrice) {
         this.stockHave = stockHave;
         this.type = tradeType;
         this.price = price;
         this.tradeDate = tradeDate;
         this.quantity = quantity;
         this.marketPrice = marketPrice;
-        this.createdAt = createdAt;
     }
 }

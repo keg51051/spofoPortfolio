@@ -1,11 +1,12 @@
 package spofo.tradelog.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.then;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -18,6 +19,7 @@ import spofo.portfolio.enums.IncludeType;
 import spofo.portfolio.enums.PortfolioType;
 import spofo.stock.entity.StockHave;
 import spofo.stock.repository.StockHaveRepository;
+import spofo.tradelog.dto.request.CreateTradeLogRequest;
 import spofo.tradelog.dto.response.TradeLogResponse;
 import spofo.tradelog.entity.TradeLog;
 import spofo.tradelog.enums.TradeType;
@@ -39,6 +41,29 @@ class TradeLogServiceTest {
 
     private static Long STOCK_ID = 1L;
     private static Long PORTFOLIO_ID = 1L;
+
+    @Test
+    @DisplayName("보유 종목에 대한 이력을 생성한다.")
+    void createTradeLog() {
+
+        // given
+        Portfolio mockPortfolio = getMockPortfolio();
+        StockHave mockStockHave = getMockStockHave(mockPortfolio);
+        CreateTradeLogRequest mockCreateTradeLogRequest = CreateTradeLogRequest.builder()
+                .stockHave(mockStockHave)
+                .type(TradeType.B)
+                .price(BigDecimal.valueOf(1000))
+                .tradeDate(LocalDateTime.now())
+                .quantity(BigDecimal.valueOf(2))
+                .marketPrice(BigDecimal.valueOf(1000))
+                .build();
+
+        // then
+        tradeLogService.createTradeLog(mockCreateTradeLogRequest);
+
+        // when
+        then(tradeLogRepository).should().save(any(TradeLog.class));
+    }
 
     @Test
     @DisplayName("보유 종목에 대한 이력을 조회한다.")
@@ -85,14 +110,12 @@ class TradeLogServiceTest {
 
     private TradeLog getMockTradeLog(StockHave stockHave) {
         return TradeLog.builder()
-                .id(1L)
                 .stockHave(stockHave)
                 .tradeType(TradeType.B)
                 .price(BigDecimal.valueOf(1000))
                 .tradeDate(LocalDateTime.now())
                 .quantity(BigDecimal.valueOf(2))
                 .marketPrice(BigDecimal.valueOf(1000))
-                .createdAt(LocalDateTime.now())
                 .build();
     }
 }
