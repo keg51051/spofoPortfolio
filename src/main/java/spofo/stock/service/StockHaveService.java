@@ -153,11 +153,12 @@ public class StockHaveService {
     // TradeLog 매수가의 합 / 수량의 합
     // From TradeLog
     private BigDecimal getAvgPrice(Long stockId) {
+        StockHave stockHave = stockHaveRepository.getReferenceById(stockId);
         BigDecimal totalPrice;
         BigDecimal totalQuantity = getQuantity(stockId);
         BigDecimal avgPrice = BigDecimal.ZERO;
 
-        totalPrice = tradeLogRepository.findByStockId(stockId)
+        totalPrice = tradeLogRepository.findByStockHave(stockHave)
                 .stream()
                 .map(TradeLog::getPrice)
                 .reduce(BigDecimal.ZERO, BigDecimal::add)
@@ -198,8 +199,9 @@ public class StockHaveService {
     // TODO : 보유 종목의 수량
     // From TradeLog
     private BigDecimal getQuantity(Long stockId) {
+        StockHave stockHave = stockHaveRepository.getReferenceById(stockId);
 
-        return tradeLogRepository.findByStockId(stockId)
+        return tradeLogRepository.findByStockHave(stockHave)
                 .stream()
                 .map(TradeLog::getQuantity)
                 .reduce(BigDecimal.ZERO, BigDecimal::add)

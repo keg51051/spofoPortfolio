@@ -14,6 +14,7 @@ import jakarta.persistence.Table;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
@@ -53,4 +54,15 @@ public class TradeLog {
     @Column(updatable = false, nullable = false)
     @CreationTimestamp
     private LocalDateTime createdAt;
+
+    @Builder
+    public TradeLog(StockHave stockHave, TradeType tradeType, BigDecimal price,
+            LocalDateTime tradeDate, BigDecimal quantity, BigDecimal marketPrice) {
+        this.stockHave = stockHave;
+        this.type = tradeType;
+        this.price = price;
+        this.tradeDate = tradeDate;
+        this.quantity = quantity;
+        this.marketPrice = marketPrice;
+    }
 }

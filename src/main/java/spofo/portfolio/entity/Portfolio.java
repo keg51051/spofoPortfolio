@@ -1,5 +1,6 @@
 package spofo.portfolio.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -12,12 +13,13 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
 import spofo.global.entity.Date;
 import spofo.portfolio.enums.IncludeType;
 import spofo.portfolio.enums.PortfolioType;
 
 @Entity
-@Table(name = "portfolio")
+@Table(name = "Portfolio")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
@@ -36,11 +38,16 @@ public class Portfolio extends Date {
 
     private String currency;
 
+    @Column(columnDefinition = "VARCHAR(1) DEFAULT 'Y'", nullable = false)
     @Enumerated(EnumType.STRING)
     private IncludeType includeYn;
 
     @Enumerated(EnumType.STRING)
     private PortfolioType type;
 
-
+    public void toUpdate(String name, String description, IncludeType includeYn) {
+        this.name = name;
+        this.description = description;
+        this.includeYn = includeYn;
+    }
 }
