@@ -87,13 +87,14 @@ public class StockHaveService {
     private BigDecimal getAvgPrice(Long stockId) {
         BigDecimal totalPrice;
         BigDecimal totalQuantity = getQuantity(stockId);
-        totalPrice = tradeLogRepository.findByStockId(stockId)
-                .stream()
-                .map(TradeLog::getPrice)
-                .reduce(BigDecimal.ZERO, BigDecimal::add)
-                .setScale(2);
-
-        return totalPrice.divide(totalQuantity);
+//        totalPrice = tradeLogRepository.findByStockId(stockId)
+//                .stream()
+//                .map(TradeLog::getPrice)
+//                .reduce(BigDecimal.ZERO, BigDecimal::add)
+//                .setScale(2);
+//
+//        return totalPrice.divide(totalQuantity);
+        return BigDecimal.ZERO;
     }
 
     // TODO : 보유 종목의 현재가
@@ -106,11 +107,12 @@ public class StockHaveService {
     // From TradeLog
     private BigDecimal getQuantity(Long stockId) {
 
-        return tradeLogRepository.findByStockId(stockId)
-                .stream()
-                .map(TradeLog::getQuantity)
-                .reduce(BigDecimal.ZERO, BigDecimal::add)
-                .setScale(2);
+//        return tradeLogRepository.findByStockId(stockId)
+//                .stream()
+//                .map(TradeLog::getQuantity)
+//                .reduce(BigDecimal.ZERO, BigDecimal::add)
+//                .setScale(2);
+        return BigDecimal.ZERO;
     }
 
     // TODO : 아이콘 이미지 URL

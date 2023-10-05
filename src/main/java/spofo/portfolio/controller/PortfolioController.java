@@ -2,6 +2,7 @@ package spofo.portfolio.controller;
 
 import static org.springframework.http.ResponseEntity.ok;
 
+import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -9,9 +10,11 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import spofo.portfolio.dto.request.CreatePortfolioRequest;
+import spofo.portfolio.dto.request.UpdatePortfolioRequest;
 import spofo.portfolio.dto.response.CreatePortfolioResponse;
 import spofo.portfolio.dto.response.OnePortfolioResponse;
 import spofo.portfolio.dto.response.PortfolioResponse;
@@ -59,5 +62,11 @@ public class PortfolioController {
             @PathVariable(name = "portfolioId") Long portfolioId) {
         PortfolioResponse portfolioResponse = portfolioService.getPortfolio(portfolioId);
         return ok().body(portfolioResponse);
+    }
+
+    @PutMapping("/portfolios/{portfolioId}")
+    public String updatePortfolio(@PathVariable(name = "portfolioId") Long portfolioId,
+            @RequestBody @Valid UpdatePortfolioRequest updatePortfolioRequest) {
+        return portfolioService.updatePortfolio(portfolioId, updatePortfolioRequest);
     }
 }

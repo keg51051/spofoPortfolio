@@ -1,17 +1,21 @@
 package spofo.portfolio.service;
 
+import static java.math.BigDecimal.ZERO;
 import static java.util.stream.Collectors.toList;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestClient;
 import spofo.global.exception.ErrorCode;
 import spofo.global.exception.PortfolioException;
+import spofo.global.utils.CalculateUtils;
+import spofo.portfolio.dto.request.CreatePortfolioRequest;
+import spofo.portfolio.dto.request.UpdatePortfolioRequest;
 import spofo.portfolio.dto.response.CreatePortfolioResponse;
 import spofo.portfolio.dto.response.OnePortfolioResponse;
 import spofo.portfolio.dto.response.PortfolioResponse;
@@ -19,8 +23,6 @@ import spofo.portfolio.dto.response.PortfolioSimpleResponse;
 import spofo.portfolio.dto.response.TotalPortfolioResponse;
 import spofo.portfolio.entity.Portfolio;
 import spofo.portfolio.repository.PortfolioRepository;
-import spofo.global.exception.ErrorCode;
-import spofo.global.exception.PortfolioException;
 
 @Service
 @RequiredArgsConstructor
@@ -64,6 +66,9 @@ public class PortfolioService {
 
     // todo: 전체 포폴 수익률 [((총자산/총매수금액)*100)-100]
     private BigDecimal getAllGainRate(BigDecimal totalAsset, BigDecimal allBuy) {
+        if (CalculateUtils.isZERO(totalAsset) || CalculateUtils.isZERO(allBuy)) {
+            return ZERO;
+        }
         return totalAsset.divide(allBuy, 2, RoundingMode.HALF_UP)
                 .multiply(BigDecimal.valueOf(100)).subtract(
                         BigDecimal.valueOf(100));
@@ -116,6 +121,14 @@ public class PortfolioService {
         return PortfolioResponse.from(portfolio, totalAsset, totalBuy, gain, gainRate);
     }
 
+    @Transactional
+    public String updatePortfolio(Long portfolioId, UpdatePortfolioRequest updatePortfolioRequest) {
+        Portfolio portfolio = findById(portfolioId);
+        portfolio.toUpdate(updatePortfolioRequest.getName(), updatePortfolioRequest.getDetail(),
+                updatePortfolioRequest.getIncludeYn());
+        return "ok";
+    }
+
     private Portfolio findById(Long id) {
         return portfolioRepository.findById(id)
                 .orElseThrow(() ->
@@ -149,10 +162,12 @@ public class PortfolioService {
      * 수익률 계산 ((총 자산/총 매수 금액)*100)-100
      **/
     private BigDecimal getGainRate(BigDecimal totalAsset, BigDecimal totalBuy) {
-        /*return totalAsset.divide(totalBuy, 2, RoundingMode.HALF_UP)
+        if (CalculateUtils.isZERO(totalAsset) || CalculateUtils.isZERO(totalBuy)) {
+            return ZERO;
+        }
+        return totalAsset.divide(totalBuy, 2, RoundingMode.HALF_UP)
                 .multiply(BigDecimal.valueOf(100)).subtract(
-                        BigDecimal.valueOf(100));*/
-        return BigDecimal.ZERO;
+                        BigDecimal.valueOf(100));
     }
 
     /**
