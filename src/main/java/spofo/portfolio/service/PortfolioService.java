@@ -6,6 +6,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
@@ -18,6 +19,8 @@ import spofo.portfolio.dto.response.PortfolioSimpleResponse;
 import spofo.portfolio.dto.response.TotalPortfolioResponse;
 import spofo.portfolio.entity.Portfolio;
 import spofo.portfolio.repository.PortfolioRepository;
+import spofo.global.exception.ErrorCode;
+import spofo.global.exception.PortfolioException;
 
 @Service
 @RequiredArgsConstructor
