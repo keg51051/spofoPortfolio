@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class TotalPortfolioResponse {
 
-    private Long id;
+    /*private Long id;*/
     private BigDecimal totalAsset; // 총 자산
     private BigDecimal gain; // 평가 손익
     private BigDecimal gainRate; // 수익률
