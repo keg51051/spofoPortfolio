@@ -1,5 +1,6 @@
 package spofo.portfolio.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -36,6 +37,7 @@ public class Portfolio extends Date {
 
     private String currency;
 
+    @Column(columnDefinition = "VARCHAR(1) DEFAULT 'Y'", nullable = false)
     @Enumerated(EnumType.STRING)
     private IncludeType includeYn;
 
