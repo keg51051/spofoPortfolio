@@ -46,8 +46,8 @@ public class PortfolioController {
     @PostMapping("/portfolios")
     public ResponseEntity<CreatePortfolioResponse> createPortfolio(
             @RequestBody @Validated CreatePortfolioRequest createPortfolioRequest) {
-        CreatePortfolioResponse createPortfolioResponse = portfolioService.createPortfolio(
-                createPortfolioRequest.toEntity());
+        CreatePortfolioResponse createPortfolioResponse =
+                portfolioService.createPortfolio(createPortfolioRequest.toEntity());
         return ok(createPortfolioResponse);
     }
 
@@ -66,13 +66,17 @@ public class PortfolioController {
     }
 
     @PutMapping("/portfolios/{portfolioId}")
-    public String updatePortfolio(@PathVariable(name = "portfolioId") Long portfolioId,
+    public ResponseEntity<Void> updatePortfolio(
+            @PathVariable(name = "portfolioId") Long portfolioId,
             @RequestBody @Valid UpdatePortfolioRequest updatePortfolioRequest) {
-        return portfolioService.updatePortfolio(portfolioId, updatePortfolioRequest);
+        portfolioService.updatePortfolio(portfolioId, updatePortfolioRequest);
+        return ok().body(null);
     }
 
     @DeleteMapping("/portfolios/{portfolioId}")
-    public String deletePortfolio(@PathVariable(name = "portfolioId") Long portfolioId) {
-        return portfolioService.deletePortfolio(portfolioId);
+    public ResponseEntity<Void> deletePortfolio(
+            @PathVariable(name = "portfolioId") Long portfolioId) {
+        portfolioService.deletePortfolio(portfolioId);
+        return ok().body(null);
     }
 }

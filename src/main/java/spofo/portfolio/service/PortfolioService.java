@@ -122,19 +122,17 @@ public class PortfolioService {
 
     // 포트폴리오 수정 api-006
     @Transactional
-    public String updatePortfolio(Long portfolioId, UpdatePortfolioRequest updatePortfolioRequest) {
+    public void updatePortfolio(Long portfolioId, UpdatePortfolioRequest updatePortfolioRequest) {
         Portfolio portfolio = findById(portfolioId);
         portfolio.toUpdate(updatePortfolioRequest.getName(), updatePortfolioRequest.getDetail(),
                 updatePortfolioRequest.getIncludeYn());
-        return "ok";
     }
 
     // 포트폴리오 삭제 api-007
     @Transactional
-    public String deletePortfolio(Long portfolioId) {
+    public void deletePortfolio(Long portfolioId) {
         Portfolio portfolio = findById(portfolioId);
         portfolioRepository.delete(portfolio);
-        return "ok";
     }
 
     private Portfolio findById(Long id) {
