@@ -23,7 +23,6 @@ public class StockHave extends Date {
     @GeneratedValue
     private Long id;
     private String stockCode; // 종목 코드 (FK)
-    @JoinColumn(name = "portfolio_id")
     @ManyToOne(fetch = FetchType.LAZY) // Fecth 타입 Lazy 설정, Default: Eager
     @JoinColumn(name = "portfolio_id")
     private Portfolio portfolio; // 포트폴리오 아이디 (FK)

@@ -12,6 +12,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
 import spofo.global.entity.Date;
 import spofo.portfolio.enums.IncludeType;
 import spofo.portfolio.enums.PortfolioType;
@@ -42,5 +43,9 @@ public class Portfolio extends Date {
     @Enumerated(EnumType.STRING)
     private PortfolioType type;
 
-
+    public void toUpdate(String name, String description, IncludeType includeYn) {
+        this.name = name;
+        this.description = description;
+        this.includeYn = includeYn;
+    }
 }
