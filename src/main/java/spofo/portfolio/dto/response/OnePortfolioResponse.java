@@ -1,6 +1,5 @@
 package spofo.portfolio.dto.response;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,8 +8,6 @@ import spofo.portfolio.enums.PortfolioType;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class OnePortfolioResponse {
 
     private Long id;
@@ -30,4 +27,18 @@ public class OnePortfolioResponse {
                 .type(portfolio.getType())
                 .build();
     }
+
+    @Builder
+    public OnePortfolioResponse(Long id, Long memberId, String name, String description,
+            String currency, PortfolioType type) {
+        OnePortfolioResponse.builder()
+                .id(id)
+                .memberId(memberId)
+                .name(name)
+                .description(description)
+                .currency(currency)
+                .type(type)
+                .build();
+    }
+
 }

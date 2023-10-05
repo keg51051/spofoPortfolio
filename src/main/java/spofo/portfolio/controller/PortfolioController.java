@@ -20,6 +20,7 @@ import spofo.portfolio.dto.response.OnePortfolioResponse;
 import spofo.portfolio.dto.response.PortfolioResponse;
 import spofo.portfolio.dto.response.PortfolioSimpleResponse;
 import spofo.portfolio.dto.response.TotalPortfolioResponse;
+import spofo.portfolio.repository.PortfolioRepository;
 import spofo.portfolio.service.PortfolioService;
 
 @RestController
@@ -27,18 +28,23 @@ import spofo.portfolio.service.PortfolioService;
 public class PortfolioController {
 
     private final PortfolioService portfolioService;
+    private final PortfolioRepository portfolioRepository;
 
     @GetMapping("/portfolios/total")
     public ResponseEntity<TotalPortfolioResponse> getTotalPortfolio() {
         TotalPortfolioResponse totalPortfolioResponse = portfolioService.getTotalPortfolio(
-                portfolioService.getMemberId());
+                /*portfolioService.getMemberId()*/
+                portfolioRepository.findmemberId()
+        );
         return ok(totalPortfolioResponse);
     }
 
     @GetMapping("/portfolios")
-    public ResponseEntity<List<PortfolioSimpleResponse>> getListPortfolio() {
-        List<PortfolioSimpleResponse> portfolioSimpleResponse = portfolioService.getListPortfolio(
-                portfolioService.getMemberId());
+    public ResponseEntity<List<PortfolioSimpleResponse>> getPortfolioSimple() {
+        List<PortfolioSimpleResponse> portfolioSimpleResponse = portfolioService.getPortfolioSimple(
+                /*portfolioService.getMemberId()*/
+                portfolioRepository.findmemberId()
+        );
         return ok(portfolioSimpleResponse);
     }
 
@@ -50,7 +56,7 @@ public class PortfolioController {
         return ok(createPortfolioResponse);
     }
 
-    @GetMapping("/portolios/{portfolioId}")
+    @GetMapping("/portfolios/{portfolioId}")
     public ResponseEntity<OnePortfolioResponse> getOnePortfolio(
             @PathVariable(name = "portfolioId") Long portfolioId) {
         OnePortfolioResponse onePortfolioResponse = portfolioService.getOnePortfolio(portfolioId);

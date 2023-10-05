@@ -1,16 +1,12 @@
 package spofo.portfolio.dto.request;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import spofo.portfolio.entity.Portfolio;
 import spofo.portfolio.enums.PortfolioType;
 
-
 @Data
-@Builder
-@AllArgsConstructor
 @NoArgsConstructor
 public class CreatePortfolioRequest {
 
@@ -28,5 +24,13 @@ public class CreatePortfolioRequest {
                 .build();
     }
 
+    @Builder
+    public CreatePortfolioRequest(String name, String description, String currency,
+            PortfolioType type) {
+        this.name = name;
+        this.description = description;
+        this.currency = currency;
+        this.type = type;
+    }
 
 }

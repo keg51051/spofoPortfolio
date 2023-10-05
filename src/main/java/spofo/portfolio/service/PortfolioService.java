@@ -14,7 +14,6 @@ import org.springframework.web.client.RestClient;
 import spofo.global.exception.ErrorCode;
 import spofo.global.exception.PortfolioException;
 import spofo.global.utils.CalculateUtils;
-import spofo.portfolio.dto.request.CreatePortfolioRequest;
 import spofo.portfolio.dto.request.UpdatePortfolioRequest;
 import spofo.portfolio.dto.response.CreatePortfolioResponse;
 import spofo.portfolio.dto.response.OnePortfolioResponse;
@@ -39,7 +38,9 @@ public class PortfolioService {
                 .body(String.class)));
     }
 
+
     // 전체 포트폴리오 자산 조회 api-001
+    //개요 여부에 따라 포함해서 계산
     public TotalPortfolioResponse getTotalPortfolio(Long memberId) {
         List<Portfolio> portfolios = portfolioRepository.findByMemberId(memberId);
         BigDecimal totalAsset = getAllTotalAsset();
@@ -80,7 +81,7 @@ public class PortfolioService {
     }
 
     // 포트폴리오 목록 조회 api-002
-    public List<PortfolioSimpleResponse> getListPortfolio(Long memberId) {
+    public List<PortfolioSimpleResponse> getPortfolioSimple(Long memberId) {
         return portfolioRepository.findByMemberId(memberId).stream()
                 .map(portfolio -> PortfolioSimpleResponse.from(portfolio,
                         getGain(getTotalAsset(), getTotalBuy()),
@@ -93,7 +94,8 @@ public class PortfolioService {
     public CreatePortfolioResponse createPortfolio(Portfolio createPortfolioRequest) {
         Portfolio portfolio = portfolioRepository.save(
                 Portfolio.builder()
-                        .memberId(getMemberId())
+                        //.memberId(getMemberId())
+                        .memberId(portfolioRepository.findmemberId())
                         .type(createPortfolioRequest.getType())
                         .name(createPortfolioRequest.getName())
                         .description(createPortfolioRequest.getDescription())
