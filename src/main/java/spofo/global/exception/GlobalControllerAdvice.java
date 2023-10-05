@@ -26,7 +26,7 @@ public class GlobalControllerAdvice {
     */
 
     // 종목 추가 에러 핸들러
-    @ExceptionHandler(value = DataIntegrityViolationException.class)
+    @ExceptionHandler
     public ResponseEntity DataIntegrityViolationException(DataIntegrityViolationException e) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body("찾을 수 없는 포트폴리오 아이디입니다. \n" + e.getMessage());
