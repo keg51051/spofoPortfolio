@@ -7,6 +7,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import java.math.BigDecimal;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,21 +19,21 @@ import spofo.portfolio.entity.Portfolio;
 @Table(name = "stock_have")
 @Getter
 @NoArgsConstructor
+@Builder
+@AllArgsConstructor
 public class StockHave extends Date {
 
     @Id
     @GeneratedValue
     private Long id;
+
     private String stockCode; // 종목 코드 (FK)
+
     @JoinColumn(name = "portfolio_id")
     @ManyToOne(fetch = FetchType.LAZY) // Fecth 타입 Lazy 설정, Default: Eager
-    @JoinColumn(name = "portfolio_id")
-    private Portfolio portfolio; // 포트폴리오 아이디 (FK)
+    private Portfolio portfolio;
 
-    @Builder
-    public StockHave(Long id, String stockCode, Portfolio portfolio) {
-        this.id = id;
-        this.stockCode = stockCode;
-        this.portfolio = portfolio;
-    }
+    private String tradeDate;
+    private BigDecimal quantity;
+    private BigDecimal avgPrice;
 }
