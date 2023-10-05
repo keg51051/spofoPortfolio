@@ -14,7 +14,6 @@ import org.springframework.web.client.RestClient;
 import spofo.global.exception.ErrorCode;
 import spofo.global.exception.PortfolioException;
 import spofo.global.utils.CalculateUtils;
-import spofo.portfolio.dto.request.CreatePortfolioRequest;
 import spofo.portfolio.dto.request.UpdatePortfolioRequest;
 import spofo.portfolio.dto.response.CreatePortfolioResponse;
 import spofo.portfolio.dto.response.OnePortfolioResponse;
@@ -110,7 +109,7 @@ public class PortfolioService {
         return OnePortfolioResponse.from(portfolio);
     }
 
-
+    // 포트폴리오 자산 조회 api-004
     public PortfolioResponse getPortfolio(Long portfolioId) {
         Portfolio portfolio = findById(portfolioId);
 
@@ -121,12 +120,19 @@ public class PortfolioService {
         return PortfolioResponse.from(portfolio, totalAsset, totalBuy, gain, gainRate);
     }
 
+    // 포트폴리오 수정 api-006
     @Transactional
-    public String updatePortfolio(Long portfolioId, UpdatePortfolioRequest updatePortfolioRequest) {
+    public void updatePortfolio(Long portfolioId, UpdatePortfolioRequest updatePortfolioRequest) {
         Portfolio portfolio = findById(portfolioId);
         portfolio.toUpdate(updatePortfolioRequest.getName(), updatePortfolioRequest.getDetail(),
                 updatePortfolioRequest.getIncludeYn());
-        return "ok";
+    }
+
+    // 포트폴리오 삭제 api-007
+    @Transactional
+    public void deletePortfolio(Long portfolioId) {
+        Portfolio portfolio = findById(portfolioId);
+        portfolioRepository.delete(portfolio);
     }
 
     private Portfolio findById(Long id) {
