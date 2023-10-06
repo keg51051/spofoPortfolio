@@ -57,7 +57,7 @@ public class StockController {
             @PathVariable("stockId") Long stockId) {
         // TODO : 종목 삭제
         stockHaveService.deleteStock(portfolioId, stockId);
-        return ok().body(null);
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/portfolios/{portfolioId}/stocks/{stockCode}")
