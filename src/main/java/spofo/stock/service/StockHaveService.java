@@ -6,7 +6,9 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
@@ -71,12 +73,15 @@ public class StockHaveService {
         Portfolio portfolio = portfolioRepository.getReferenceById(portfolioId);
         StockHave stockHave = addStockRequest.toEntity(portfolio);
         StockHave sh = stockHaveRepository.save(stockHave);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+
         CreateTradeLogRequest createTradeLogRequest =
                 CreateTradeLogRequest.builder()
                         .stockHave(sh)
                         .type(TradeType.B) // 매도 추가 시 수정
                         .price(addStockRequest.getAvgPrice())
-                        .tradeDate(LocalDateTime.parse(addStockRequest.getTradeDate()))
+                        .tradeDate(LocalDate.parse(addStockRequest.getTradeDate(), formatter)
+                                .atStartOfDay())
                         .quantity(addStockRequest.getQuantity())
                         .marketPrice(getCurrentPrice(sh.getStockCode()))
                         .build();
@@ -88,21 +93,31 @@ public class StockHaveService {
 
     // API - 010
     // 종목 추가 매수하기
-    public AddStockResponse addMoreStock(AddStockRequest addStockRequest,
-            Long portfolioId, Long stockId) {
-        Portfolio portfolio = portfolioRepository.getReferenceById(portfolioId);
-        StockHave stockHave = addStockRequest.toEntity(portfolio);
-        stockHaveRepository.save(stockHave);
+    public AddStockResponse addMoreStock(AddStockRequest addStockRequest, Long stockId) {
+        StockHave stockHave = stockHaveRepository.getReferenceById(stockId);
+        StockHave sh = stockHaveRepository.save(stockHave);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
 
-        return AddStockResponse.from(stockHave);
+        CreateTradeLogRequest createTradeLogRequest =
+                CreateTradeLogRequest.builder()
+                        .stockHave(sh)
+                        .type(TradeType.B) // 매도 추가 시 수정
+                        .price(addStockRequest.getAvgPrice())
+                        .tradeDate(LocalDateTime.parse(addStockRequest.getTradeDate(), formatter))
+                        .quantity(addStockRequest.getQuantity())
+                        .marketPrice(getCurrentPrice(sh.getStockCode()))
+                        .build();
+
+        tradeLogService.createTradeLog(createTradeLogRequest);
+
+        return AddStockResponse.from(sh);
     }
 
     // API - 011
     // 종목 삭제하기
     @Transactional
-    public void deleteStock(Long stockId) {
-        StockHave stockHave = stockHaveRepository.getReferenceById(stockId);
-        stockHaveRepository.delete(stockHave);
+    public void deleteStock(Long portfolioId, Long stockId) {
+        stockHaveRepository.deleteByStockId(portfolioId, stockId);
     }
 
     // API - 014
