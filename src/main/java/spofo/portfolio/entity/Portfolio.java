@@ -14,7 +14,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
-import spofo.portfolio.repository.global.entity.Date;
+import spofo.global.entity.Date;
 import spofo.portfolio.enums.IncludeType;
 import spofo.portfolio.enums.PortfolioType;
 
