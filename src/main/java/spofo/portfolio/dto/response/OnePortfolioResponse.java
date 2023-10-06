@@ -31,14 +31,12 @@ public class OnePortfolioResponse {
     @Builder
     public OnePortfolioResponse(Long id, Long memberId, String name, String description,
             String currency, PortfolioType type) {
-        OnePortfolioResponse.builder()
-                .id(id)
-                .memberId(memberId)
-                .name(name)
-                .description(description)
-                .currency(currency)
-                .type(type)
-                .build();
+        this.id = id;
+        this.memberId = memberId;
+        this.name = name;
+        this.description = description;
+        this.currency = currency;
+        this.type = type;
     }
 
 }
