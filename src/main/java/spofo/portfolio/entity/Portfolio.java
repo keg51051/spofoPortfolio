@@ -12,15 +12,14 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.transaction.annotation.Transactional;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
-import spofo.global.entity.Date;
+import spofo.portfolio.repository.global.entity.Date;
 import spofo.portfolio.enums.IncludeType;
 import spofo.portfolio.enums.PortfolioType;
 
 @Entity
-@Table(name = "Portfolio")
+@Table(name = "portfolio")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
