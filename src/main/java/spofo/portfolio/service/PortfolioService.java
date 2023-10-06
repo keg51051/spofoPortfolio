@@ -4,6 +4,7 @@ import static java.math.BigDecimal.ZERO;
 import static java.util.stream.Collectors.toList;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.math.RoundingMode;
 import java.util.List;
 import java.util.Objects;
@@ -22,10 +23,14 @@ import spofo.portfolio.dto.response.PortfolioSimpleResponse;
 import spofo.portfolio.dto.response.TotalPortfolioResponse;
 import spofo.portfolio.entity.Portfolio;
 import spofo.portfolio.repository.PortfolioRepository;
+import spofo.stock.dto.response.StockHaveResponse;
+import spofo.stock.service.StockHaveService;
 
 @Service
 @RequiredArgsConstructor
 public class PortfolioService {
+
+    private final StockHaveService stockHaveService;
 
     private final PortfolioRepository portfolioRepository;
     private final RestClient restClient = RestClient.builder().build();
@@ -84,8 +89,9 @@ public class PortfolioService {
     public List<PortfolioSimpleResponse> getPortfolioSimple(Long memberId) {
         return portfolioRepository.findByMemberId(memberId).stream()
                 .map(portfolio -> PortfolioSimpleResponse.from(portfolio,
-                        getGain(getTotalAsset(), getTotalBuy()),
-                        getGainRate(getTotalAsset(), getTotalBuy()))
+                        getGain(getTotalAsset(portfolio.getId()), getTotalBuy(portfolio.getId())),
+                        getGainRate(getTotalAsset(portfolio.getId()),
+                                getTotalBuy(portfolio.getId())))
                 )
                 .collect(toList());
     }
@@ -116,8 +122,8 @@ public class PortfolioService {
     public PortfolioResponse getPortfolio(Long portfolioId) {
         Portfolio portfolio = findById(portfolioId);
 
-        BigDecimal totalAsset = getTotalAsset();
-        BigDecimal totalBuy = getTotalBuy();
+        BigDecimal totalAsset = getTotalAsset(portfolioId);
+        BigDecimal totalBuy = getTotalBuy(portfolioId);
         BigDecimal gain = getGain(totalAsset, totalBuy);
         BigDecimal gainRate = getGainRate(totalAsset, totalBuy);
         return PortfolioResponse.from(portfolio, totalAsset, totalBuy, gain, gainRate);
@@ -145,19 +151,27 @@ public class PortfolioService {
     }
 
     /**
-     * TODO : 총 자산 계산
      * 각 종목 현재가 * 수량
      **/
-    private BigDecimal getTotalAsset() {
-        return BigDecimal.ZERO;
+    private BigDecimal getTotalAsset(Long portfolioId) {
+        BigDecimal totalAsset = ZERO;
+        List<StockHaveResponse> stockHaveResponses = stockHaveService.getStocks(portfolioId);
+        for (StockHaveResponse stockHaveResponse : stockHaveResponses) {
+            totalAsset = totalAsset.add(stockHaveResponse.getTotalAsset());
+        }
+        return totalAsset;
     }
 
     /**
-     * TODO : 총 매수 금액 계산
      * 각 종목의 구매가 * 수량
      **/
-    private BigDecimal getTotalBuy() {
-        return BigDecimal.ZERO;
+    private BigDecimal getTotalBuy(Long portfolioId) {
+        BigDecimal totalBuy = ZERO;
+        List<StockHaveResponse> stockHaveResponses = stockHaveService.getStocks(portfolioId);
+        for (StockHaveResponse stockHaveResponse : stockHaveResponses) {
+            totalBuy = totalBuy.add(stockHaveResponse.getAvgPrice());
+        }
+        return totalBuy;
     }
 
     /**
